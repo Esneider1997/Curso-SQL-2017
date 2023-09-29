@@ -1,0 +1,25 @@
+SENTENCIAS
+1 DDL 	- 1.1 CREATE, 1.2 DROP, 1.3 ALTER (COMMENT, RENAME)
+2 DML 	- 2.1 SELECT, 2.2 INSERT, 2.3 UPDATE, 2.4 DELETE (MARGE,CALL,EXPLAIN PLAN, LOCK TABLE)
+3 DCL 	- 3.1 GRANT: permite otorgar permisos, 3.2 REVOKE: elimina los permisos que previamente se han concedido.
+3 TCL 	- (COMMIT, ROLLBACK, SAVEPOINT, SET TRANACTION)
+
+
+7/03/2023  == 1.3 cac_servicios_config_modelo
+ALTER TABLE [dbo].[cac_servicios_config_modelo] DROP CONSTRAINT [FK_IdHistoriaModelo]
+GO
+
+DROP INDEX [no_repite_codigo_centro_costo] ON [dbo].[cac_servicios_config_modelo]
+
+
+EXEC sp_rename '[dbo].[cac_servicios_config_modelo].[id_historia_modelo]', 'id_programas', 'COLUMN'
+GO
+
+ALTER TABLE [dbo].[cac_servicios_config_modelo] ADD CONSTRAINT [FK_IdProgramas_mae_programa] FOREIGN KEY ([id_programas]) REFERENCES [dbo].[mae_programas] ([id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+ALTER TABLE [dbo].[cac_servicios_config_modelo] ADD [id_resoluciones] varchar(255) NULL
+
+7/03/2023  == 1.3 cac_resoluciones
+ALTER TABLE [dbo].[cac_resoluciones] ADD [id_programa] int NULL
+ALTER TABLE [dbo].[cac_resoluciones] ADD CONSTRAINT [FK_idProgramas_mae_programas] FOREIGN KEY ([id_programa]) REFERENCES [dbo].[mae_programas] ([id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+
